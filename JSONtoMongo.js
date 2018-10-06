@@ -7,9 +7,14 @@ var fs = require('fs'),
     mongoose = require('mongoose'), 
     Schema = mongoose.Schema, 
     Listing = require('./ListingSchema.js'), 
-    config = require('./config');
+    config = require('./config'),
+    listings = require('./listings.json');
 
 /* Connect to your database using mongoose - remember to keep your key secret*/
+mongoose.connect(config.db.uri);
+//done();
+debugger;
+let listingArray = listings.entries;
 
 /* 
   Instantiate a mongoose model for each listing object in the JSON file, 
@@ -17,6 +22,22 @@ var fs = require('fs'),
 
   Remember that we need to read in a file like we did in Bootcamp Assignment #1.
  */
+
+ for(var i = 0; i < listingArray.length; i++){
+   var currListing = new Listing({
+     name: listingArray[i].name,
+     code: listingArray[i].code,
+     coordinates: listingArray[i].coordinates,
+     address: listingArray[i].address
+   });
+   debugger;
+   currListing.save(function(err){
+    if(err != null){
+     throw err;
+    }
+    //done();
+  })
+ }
 
 
 /*  
